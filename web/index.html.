@@ -7,8 +7,9 @@
 <body style="font-family:Arial;text-align:center;background:#f5eaff;padding:30px;">
   <h1>Welcome to Luvnexa 💜</h1>
   <p>Connect with people and share your moments.</p> 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>
 </html>
-</body>
+
 
