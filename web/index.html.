@@ -1,15 +1,60 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Luvnexa</title>
+  <title>Luvnexa 💜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body style="font-family:Arial;text-align:center;background:#f5eaff;padding:30px;">
   <h1>Welcome to Luvnexa 💜</h1>
-  <p>Connect with people and share your moments.</p> 
+  <p>Connect with people and share your moments.</p>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <h2>Create Account</h2>
+  <input id="email" type="email" placeholder="Your email" autocomplete="email"><br><br>
+  <input id="password" type="password" placeholder="Password" autocomplete="new-password"><br><br>
+  <button onclick="signUp()">Sign Up</button>
+  <button onclick="logIn()">Log In</button>
+  <p id="message"></p>
+
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      "https://pilcggmwfxlhiucnyyqx.supabase.co",
+      "sb_publishable_UW6y96bx0EKtTfR9h_AVng_UHbdQfhg"
+    );
+
+    async function signUp() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      if (!email || password.length < 6) {
+        message.textContent = "Enter your email and a password of at least 6 characters.";
+        return;
+      }
+
+      const { error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password
+      });
+
+      message.textContent = error ? error.message :
+        "Account request submitted! Check your email if verification is required.";
+    }
+
+    async function logIn() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      message.textContent = error ? error.message :
+        "Welcome back to Luvnexa! You are logged in.";
+    }
+  </script>
 </body>
 </html>
-
-
