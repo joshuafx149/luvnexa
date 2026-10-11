@@ -1,60 +1,112 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Luvnexa 💜</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luvnexa 💜</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5eaff;
+      text-align: center;
+      padding: 25px;
+    }
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 320px;
+      padding: 13px;
+      margin: 8px auto;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    input { border: 1px solid #ccc; }
+    button {
+      background: #7738c8;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #message { overflow-wrap: anywhere; }
+  </style>
 </head>
-<body style="font-family:Arial;text-align:center;background:#f5eaff;padding:30px;">
-  <h1>Welcome to Luvnexa 💜</h1>
-  <p>Connect with people and share your moments.</p>
+<body>
+  <h1>Luvnexa 💜</h1>
+  <p>Connect, share and discover.</p>
 
   <h2>Create Account</h2>
-  <input id="email" type="email" placeholder="Your email" autocomplete="email"><br><br>
-  <input id="password" type="password" placeholder="Password" autocomplete="new-password"><br><br>
+  <input id="name" placeholder="Your name" autocomplete="name">
+  <input id="email" type="email" placeholder="Email address" autocomplete="email">
+  <input id="password" type="password" placeholder="Create password" autocomplete="new-password">
   <button type="button" onclick="signUp()">Sign Up</button>
-  <button onclick="logIn()">Log In</button>
-  <p id="message"></p>
+  <p>Already registered?</p>
+  <button type="button" onclick="logIn()">Log In</button>
+  <p id="message" role="status"></p>
 
   <script>
-    const supabaseClient = window.supabase.createClient(
+    const client = window.supabase.createClient(
       "https://pilcggmwfxlhiucnyyqx.supabase.co",
       "sb_publishable_UW6y96bx0EKtTfR9h_AVng_UHbdQfhg"
     );
 
-    async function signUp() {
+    const message = document.getElementById("message");
+
+    window.signUp = async function () {
+      const name = document.getElementById("name").value.trim();
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
-      const message = document.getElementById("message");
 
-      if (!email || password.length < 6) {
-        message.textContent = "Enter your email and a password of at least 6 characters.";
+      if (!name || !email || password.length < 6) {
+        message.textContent = "Enter your name, email, and a password of at least 6 characters.";
         return;
       }
 
-      const { error } = await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-      });
+      message.textContent = "Creating your account...";
 
-      message.textContent = error ? error.message :
-        "Account request submitted! Check your email if verification is required.";
-    }
+      try {
+        const { data, error } = await client.auth.signUp({
+          email,
+          password,
+          options: { data: { full_name: name } }
+        });
 
-    async function logIn() {
+        if (error) throw error;
+
+        message.textContent = data.user?.identities?.length === 0
+          ? "This account may already exist. Try logging in."
+          : data.session
+            ? "Account created successfully! Welcome to Luvnexa 💜"
+            : "Sign-up request received! Check your email to verify your account.";
+      } catch (error) {
+        message.textContent = "Sign-up failed: " + error.message;
+      }
+    };
+
+    window.logIn = async function () {
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
-      const message = document.getElementById("message");
 
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
+      if (!email || !password) {
+        message.textContent = "Enter your email and password first.";
+        return;
+      }
 
-      message.textContent = error ? error.message :
-        "Welcome back to Luvnexa! You are logged in.";
-    }
+      message.textContent = "Logging in...";
+
+      try {
+        const { error } = await client.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+        message.textContent = "You are logged in to Luvnexa 💜!";
+      } catch (error) {
+        message.textContent = "Login failed: " + error.message;
+      }
+    };
   </script>
 </body>
 </html>
