@@ -1,1 +1,114 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luvnexa - Connect and Share</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f0ff;
+  color: #222;
+}
+header {
+  background: #7048e8;
+  color: white;
+  padding: 22px;
+  text-align: center;
+}
+main {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 15px;
+}
+section {
+  background: white;
+  padding: 18px;
+  margin-bottom: 16px;
+  border-radius: 15px;
+}
+input, textarea {
+  width: 95%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font: inherit;
+}
+button {
+  background: #7048e8;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.post {
+  border-top: 1px solid #eee;
+  padding: 12px 0;
+  overflow-wrap: anywhere;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💜 Luvnexa</h1>
+  <p>Connect. Share. Belong.</p>
+</header>
+
+<main>
+  <section>
+    <h2>Welcome to Luvnexa</h2>
+    <p>Connect with people and share your moments.</p>
+    <input id="name" placeholder="Enter your name">
+    <button onclick="welcomeUser()">Continue</button>
+    <p id="welcome"></p>
+  </section>
+
+  <section>
+    <h2>Create a post</h2>
+    <textarea id="postText" rows="3"
+      placeholder="What's on your mind?"></textarea>
+    <button onclick="createPost()">Share post</button>
+  </section>
+
+  <section>
+    <h2>Community feed</h2>
+    <div id="feed">
+      <p>Welcome to the Luvnexa community! 💜</p>
+    </div>
+  </section>
+</main>
+
+<script>
+function welcomeUser() {
+  const name = document.getElementById("name").value.trim();
+  document.getElementById("welcome").textContent =
+    name ? "Welcome to Luvnexa, " + name + "!" :
+    "Please enter your name.";
+}
+
+function createPost() {
+  const input = document.getElementById("postText");
+  const message = input.value.trim();
+
+  if (!message) {
+    alert("Please write something first.");
+    return;
+  }
+
+  const post = document.createElement("div");
+  post.className = "post";
+  post.textContent = message;
+
+  document.getElementById("feed").prepend(post);
+  input.value = "";
+}
+</script>
+
+</body>
+</html>
+
 
