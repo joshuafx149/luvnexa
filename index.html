@@ -2,28 +2,50 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Luvnexa</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f7f0ff;color:#24113d}
-main{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:25px;text-align:center}
-.logo{font-size:42px;font-weight:bold;color:#8238d8}
-.circle{width:100px;height:100px;border-radius:30px;background:linear-gradient(135deg,#a855f7,#ec4899);display:grid;place-items:center;color:white;font-size:48px;margin:20px}
-h1{font-size:32px;margin:10px}
-p{color:#756784;line-height:1.6}
-button{width:100%;max-width:320px;padding:15px;margin-top:12px;border:0;border-radius:30px;background:#8238d8;color:white;font-size:16px;font-weight:bold}
-.secondary{background:white;color:#8238d8;border:1px solid #8238d8}
+body{font-family:Arial;background:#f6efff;margin:0;color:#32104f}
+main{max-width:400px;margin:45px auto;padding:25px;text-align:center}
+h1{color:#853be0}
+input{width:90%;padding:14px;margin:8px 0;border:1px solid #ddd;border-radius:10px}
+button{width:100%;padding:14px;margin-top:12px;border:0;border-radius:25px;background:#853be0;color:white;font-size:16px}
+a{color:#853be0;cursor:pointer}
+.hidden{display:none}
 </style>
 </head>
 <body>
 <main>
-<div class="logo">Luvnexa</div>
-<div class="circle">♡</div>
-<h1>Share your world.</h1>
-<p>Connect with friends, share your moments,<br>and discover something wonderful.</p>
-<button onclick="alert('Sign-up feature coming next!')">Create Account</button>
-<button class="secondary" onclick="alert('Login feature coming next!')">Log In</button>
+<h1>Luvnexa 💜</h1>
+<p>Connect, share and discover.</p>
+<section id="signup">
+<h2>Create Account</h2>
+<input id="name" placeholder="Your name">
+<input id="email" type="email" placeholder="Email address">
+<input id="password" type="password" placeholder="Create password">
+<button onclick="register()">Sign Up</button>
+<p>Already registered? <a onclick="showLogin()">Log In</a></p>
+</section>
+<section id="login" class="hidden">
+<h2>Welcome Back</h2>
+<input id="loginemail" type="email" placeholder="Email address">
+<input id="loginpassword" type="password" placeholder="Password">
+<button onclick="login()">Log In</button>
+<p><a onclick="showSignup()">Create an account</a></p>
+</section>
+<section id="welcome" class="hidden">
+<h2 id="greeting"></h2>
+<p>Your Luvnexa journey starts here!</p>
+</section>
 </main>
+<script>
+function showLogin(){signup.classList.add('hidden');login.classList.remove('hidden')}
+function showSignup(){login.classList.add('hidden');signup.classList.remove('hidden')}
+function register(){
+if(!name.value.trim()||!email.value.trim()||password.value.length<6){alert('Enter your name, email and a password of at least 6 characters.');return}
+alert('This form is ready for connection to a secure account service. Real account creation is not active yet.')
+}
+function login(){alert('Login needs a secure account service before it can work.')}
+</script>
 </body>
 </html>
